@@ -61,7 +61,7 @@ private fun GWalletApp() {
                     0 -> HomeScreen(Modifier.padding(padding), transactions.size, onHistory = { tab = 1 })
                     1 -> HistoryScreen(Modifier.padding(padding), transactions, onDelete = { id -> transactions = transactions.filterNot { it.id == id } })
                     2 -> QrDemoScreen(Modifier.padding(padding))
-                    else -> ProfileScreen(Modifier.padding(padding), onDemoLock = { showLogin = true })
+                    else -> ProfileScreen(Modifier.padding(padding), onWalletLock = { showLogin = true })
                 }
             }
         }
@@ -89,7 +89,7 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit) {
             Text("HELP", color = Blue, fontWeight = FontWeight.Bold)
         }
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            DemoBanner()
+            PersonalWalletNotice()
             Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Blue)) {
                 Column(Modifier.fillMaxWidth().padding(20.dp)) {
                     Text("AVAILABLE BALANCE", color = Color.White.copy(alpha = .8f), fontSize = 12.sp)
@@ -140,7 +140,7 @@ private fun HistoryScreen(modifier: Modifier, transactions: List<DemoTransaction
         Box(Modifier.fillMaxWidth().background(Blue).padding(22.dp), contentAlignment = Alignment.Center) {
             Text("Transaction History", color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
         }
-        Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) { DemoBanner() }
+        Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) { PersonalWalletNotice() }
         if (transactions.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("No transaction records") }
         } else {
@@ -172,10 +172,10 @@ private fun HistoryScreen(modifier: Modifier, transactions: List<DemoTransaction
 @Composable
 private fun QrDemoScreen(modifier: Modifier) {
     Column(modifier.fillMaxSize().background(Color.White).padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        DemoBanner()
+        PersonalWalletNotice()
         Spacer(Modifier.height(28.dp))
         Text("▦", color = Blue, fontSize = 100.sp)
-        Text("QR Demo", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text("QR", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         Text("QR scanning and payments are disabled in this prototype.", color = Color.Gray)
     }
 }
@@ -184,7 +184,7 @@ private fun QrDemoScreen(modifier: Modifier) {
 private fun ProfileScreen(modifier: Modifier, onWalletLock: () -> Unit) {
     Column(modifier.fillMaxSize().background(Color.White).padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text("Profile", color = Blue, fontSize = 26.sp, fontWeight = FontWeight.Bold)
-        DemoBanner()
+        PersonalWalletNotice()
         Text("Gcàsh User", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
         Text("This profile is stored locally. No phone number, MPIN, or biometric data is collected.", color = Color.Gray)
         OutlinedButton(onClick = onWalletLock, modifier = Modifier.fillMaxWidth()) { Text("Lock wallet") }
