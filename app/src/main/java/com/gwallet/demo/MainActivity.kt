@@ -294,19 +294,17 @@ private fun ProfileScreen(modifier: Modifier, onWalletLock: () -> Unit, onOfflin
 @Composable
 private fun DemoLogin(onContinue: () -> Unit) {
     var pin by remember { mutableStateOf("") }
-    var error by remember { mutableStateOf(false) }
-    var showPinPad by remember { mutableStateOf(false) }
-    var showDemoNotice by remember { mutableStateOf(false) }
+    var showNotice by remember { mutableStateOf(false) }
 
-    if (showDemoNotice) {
+    if (showNotice) {
         AlertDialog(
-            onDismissRequest = { showDemoNotice = false },
-            title = { Text("Demo account notice") },
+            onDismissRequest = { showNotice = false },
+            title = { Text("Wallet notice") },
             text = {
-                Text("This is a simulated message in G-Wallet. It is not a real account restriction or payment-provider notice.")
+                Text("This is an independent wallet interface. This message is a sample and does not indicate a real account status.")
             },
             confirmButton = {
-                TextButton(onClick = { showDemoNotice = false }) { Text("OK") }
+                TextButton(onClick = { showNotice = false }) { Text("OK") }
             }
         )
     }
@@ -319,153 +317,95 @@ private fun DemoLogin(onContinue: () -> Unit) {
         )
     ) {
         Column(
-            Modifier.fillMaxSize().padding(horizontal = 22.dp, vertical = 28.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            Modifier.fillMaxWidth().align(Alignment.TopCenter).padding(horizontal = 24.dp, vertical = 34.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(Modifier.height(24.dp))
-                WalletMark(Modifier.size(68.dp))
-                Text("G-Wallet", color = Color.White, fontSize = 29.sp, fontWeight = FontWeight.ExtraBold)
-                Text("HOLIDAY EDITION", color = Color(0xFFFFDCE7), fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(22.dp))
-                Surface(
-                    color = Color(0xFF176FE5),
-                    shape = RoundedCornerShape(32.dp),
-                    shadowElevation = 8.dp
-                ) {
-                    Text(
-                        "MY WALLET  •••• 0000",
-                        Modifier.padding(horizontal = 22.dp, vertical = 13.dp),
-                        color = Color.White,
-                        fontSize = 17.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                WalletMark(Modifier.size(66.dp))
+                Spacer(Modifier.width(14.dp))
+                Column {
+                    Text("Merry", color = Color.White, fontSize = 29.sp, fontWeight = FontWeight.Bold)
+                    Text("G-Wallet", color = Color.White, fontSize = 29.sp, fontWeight = FontWeight.Bold)
                 }
             }
+            Spacer(Modifier.height(42.dp))
+            Surface(
+                color = Color(0xFF176FE5),
+                shape = RoundedCornerShape(32.dp),
+                shadowElevation = 8.dp
+            ) {
+                Text(
+                    "MY WALLET  •••• 0000",
+                    Modifier.padding(horizontal = 24.dp, vertical = 14.dp),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("Season's Greetings", color = Color.White, fontSize = 25.sp, fontWeight = FontWeight.Bold)
-                Text("A little festive look for your wallet", color = Color(0xFFFFDCE7), fontSize = 12.sp)
-                Spacer(Modifier.height(20.dp))
-                if (!showPinPad) {
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        color = Color.White,
-                        shape = RoundedCornerShape(22.dp),
-                        shadowElevation = 10.dp
-                    ) {
-                        Row(Modifier.fillMaxWidth().padding(8.dp)) {
-                            Column(
-                                Modifier.weight(1f).padding(8.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Text("◎", color = Blue, fontSize = 34.sp)
-                                TextButton(onClick = { showDemoNotice = true }) {
-                                    Text("Biometric Login", color = Blue, fontWeight = FontWeight.SemiBold)
-                                }
-                            }
-                            androidx.compose.material3.VerticalDivider(
-                                Modifier.height(94.dp).align(Alignment.CenterVertically),
-                                color = Color(0xFFD7DFEA)
+        Surface(
+            modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter(),
+            ),
+            color = Color.White,
+            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+            shadowElevation = 12.dp
+        ) {
+            Column(
+                Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 20.dp, vertical = 12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("Enter your PIN", color = Color(0xFF173B78), fontSize = 19.sp, fontWeight = FontWeight.SemiBold)
+                Spacer(Modifier.height(12.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(22.dp)) {
+                    repeat(4) { index ->
+                        Box(
+                            Modifier.size(13.dp).background(
+                                if (index < pin.length) Blue else Color(0xFFB7C8E0),
+                                RoundedCornerShape(50)
                             )
-                            Column(
-                                Modifier.weight(1f).padding(8.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Text("⠿", color = Blue, fontSize = 34.sp)
-                                TextButton(onClick = { showPinPad = true }) {
-                                    Text("MPIN Login", color = Blue, fontWeight = FontWeight.SemiBold)
-                                }
-                            }
-                        }
+                        )
                     }
-                } else {
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        color = Color.White.copy(alpha = .97f),
-                        shape = RoundedCornerShape(22.dp),
-                        shadowElevation = 10.dp
-                    ) {
-                        Column(
-                            Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 18.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text("Enter 4-digit PIN", color = Color(0xFF163B78), fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-                            Spacer(Modifier.height(16.dp))
-                            Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
-                                repeat(4) { index ->
-                                    Box(
-                                        Modifier.size(14.dp).background(
-                                            if (index < pin.length) Blue else Color(0xFFB7C8E0),
-                                            RoundedCornerShape(50)
-                                        )
-                                    )
-                                }
-                            }
-                            if (error) {
-                                Spacer(Modifier.height(8.dp))
-                                Text("Please try again.", color = Color(0xFFB3261E), fontSize = 12.sp)
-                            }
-                            Spacer(Modifier.height(14.dp))
-                            val keys = listOf("1","2","3","4","5","6","7","8","9","","0","⌫")
-                            keys.chunked(3).forEach { row ->
-                                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                                    row.forEach { key ->
-                                        Box(Modifier.weight(1f).padding(3.dp), contentAlignment = Alignment.Center) {
-                                            if (key.isNotEmpty()) {
-                                                FilledTonalButton(
-                                                    onClick = {
-                                                        error = false
-                                                        if (key == "⌫") {
-                                                            if (pin.isNotEmpty()) pin = pin.dropLast(1)
-                                                        } else if (pin.length < 4) {
-                                                            pin += key
-                                                            if (pin.length == 4) {
-                                                                pin = ""
-                                                                showDemoNotice = true
-                                                            }
-                                                        }
-                                                    },
-                                                    modifier = Modifier.size(54.dp),
-                                                    shape = RoundedCornerShape(27.dp),
-                                                    colors = ButtonDefaults.filledTonalButtonColors(
-                                                        containerColor = Color(0xFFF1F6FF),
-                                                        contentColor = Blue
-                                                    )
-                                                ) { Text(key, fontSize = 20.sp, fontWeight = FontWeight.SemiBold) }
+                }
+                Spacer(Modifier.height(10.dp))
+                val keys = listOf("1","2","3","4","5","6","7","8","9","","0","⌫")
+                keys.chunked(3).forEach { row ->
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                        row.forEach { key ->
+                            Box(Modifier.weight(1f).padding(vertical = 2.dp), contentAlignment = Alignment.Center) {
+                                if (key.isNotEmpty()) {
+                                    TextButton(
+                                        onClick = {
+                                            if (key == "⌫") {
+                                                if (pin.isNotEmpty()) pin = pin.dropLast(1)
+                                            } else if (pin.length < 4) {
+                                                pin += key
+                                                if (pin.length == 4) {
+                                                    pin = ""
+                                                    showNotice = true
+                                                }
                                             }
-                                        }
+                                        },
+                                        modifier = Modifier.size(54.dp)
+                                    ) {
+                                        Text(key, color = Color(0xFF173B78), fontSize = 25.sp, fontWeight = FontWeight.Medium)
                                     }
                                 }
                             }
-                            TextButton(onClick = { showPinPad = false; pin = ""; error = false }) {
-                                Text("Back to login options")
-                            }
                         }
                     }
                 }
-                Spacer(Modifier.height(16.dp))
-                TextButton(onClick = { showDemoNotice = true }) {
-                    Text("Lock Account", color = Color.White, fontSize = 14.sp)
-                }
-            }
-
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Row(
-                    Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    TextButton(onClick = { showDemoNotice = true }) {
-                        Text("Help Center", color = Color.White)
-                    }
-                    TextButton(onClick = { showDemoNotice = true }) {
-                        Text("Forgot PIN?", color = Color.White)
-                    }
+                Spacer(Modifier.height(4.dp))
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                    TextButton(onClick = { showNotice = true }) { Text("Help Center", color = Blue) }
+                    TextButton(onClick = { showNotice = true }) { Text("Forgot PIN?", color = Blue) }
                 }
                 Text(
-                    "Independent wallet app • Sample interface only",
-                    color = Color(0xFFFFDCE7),
+                    "Independent wallet interface • Sample data only",
+                    color = Color.Gray,
                     fontSize = 10.sp
                 )
             }
