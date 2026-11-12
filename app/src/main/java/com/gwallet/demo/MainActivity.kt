@@ -40,6 +40,9 @@ private fun GWalletApp() {
     var showOffline by remember { mutableStateOf(false) }
     var transactions by remember {
         mutableStateOf(listOf(
+            DemoTransaction(20, "Mobile Legend Shop", "Today", "− ₱1,000.00", "Today"),
+            DemoTransaction(21, "Mobile Legend Shop", "Today", "− ₱1,000.00", "Today"),
+            DemoTransaction(22, "Mobile Legend Shop", "Today", "− ₱800.00", "Today"),
             DemoTransaction(2, "Send Money", "10:25 PM", "− ₱750.00", "Yesterday"),
             DemoTransaction(3, "ATM Withdrawal", "7:15 AM", "− ₱3,218.00", "Nov 11, 2026"),
             DemoTransaction(4, "Send Money", "6:31 PM", "− ₱300.00", "Nov 10, 2026"),
