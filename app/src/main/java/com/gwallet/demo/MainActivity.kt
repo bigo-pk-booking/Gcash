@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
 private fun GWalletApp() {
     var tab by remember { mutableStateOf(0) }
     var showLogin by remember { mutableStateOf(true) }
+    var showOffline by remember { mutableStateOf(false) }
     var transactions by remember {
         mutableStateOf(listOf(
             DemoTransaction(2, "Send Money", "10:25 PM", "− ₱750.00", "Yesterday"),
@@ -58,22 +59,30 @@ private fun GWalletApp() {
         if (showLogin) {
             DemoLogin(onContinue = { showLogin = false })
         } else {
+            if (showOffline) {
+                AlertDialog(
+                    onDismissRequest = { showOffline = false },
+                    title = { Text("No internet connection") },
+                    text = { Text("Please check your internet connection and try again.") },
+                    confirmButton = { TextButton(onClick = { showOffline = false }) { Text("OK") } }
+                )
+            }
             Scaffold(
                 containerColor = Pale,
                 bottomBar = {
                     NavigationBar(containerColor = Color.White) {
                         NavigationBarItem(selected = tab == 0, onClick = { tab = 0 }, icon = { Icon(Icons.Default.Home, null) }, label = { Text("Home") })
                         NavigationBarItem(selected = tab == 1, onClick = { tab = 1 }, icon = { Icon(Icons.Default.ReceiptLong, null) }, label = { Text("Transactions") })
-                        NavigationBarItem(selected = tab == 2, onClick = { tab = 2 }, icon = { Icon(Icons.Default.QrCode, null) }, label = { Text("QR") })
+                        NavigationBarItem(selected = tab == 2, onClick = { tab = 2 }, icon = { Icon(Icons.Default.QrCode, null) }, label = { Text("Camera") })
                         NavigationBarItem(selected = tab == 3, onClick = { tab = 3 }, icon = { Icon(Icons.Default.AccountCircle, null) }, label = { Text("Profile") })
                     }
                 }
             ) { padding ->
                 when (tab) {
-                    0 -> HomeScreen(Modifier.padding(padding), transactions.size, onHistory = { tab = 1 })
+                    0 -> HomeScreen(Modifier.padding(padding), transactions.size, onHistory = { tab = 1 }, onOffline = { showOffline = true })
                     1 -> HistoryScreen(Modifier.padding(padding), transactions)
-                    2 -> QrDemoScreen(Modifier.padding(padding))
-                    else -> ProfileScreen(Modifier.padding(padding), onWalletLock = { showLogin = true })
+                    2 -> QrDemoScreen(Modifier.padding(padding), onOffline = { showOffline = true })
+                    else -> ProfileScreen(Modifier.padding(padding), onWalletLock = { showLogin = true }, onOffline = { showOffline = true })
                 }
             }
         }
@@ -96,14 +105,7 @@ private fun GcàshMark(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun PersonalWalletNotice() {
-    Surface(color = Color(0xFFFFF2D8), shape = RoundedCornerShape(10.dp), modifier = Modifier.fillMaxWidth()) {
-        Text("PERSONAL WALLET • Fictional balance and sample records only. Not connected to any bank or payment service.", color = Color(0xFF754B00), fontSize = 11.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(10.dp))
-    }
-}
-
-@Composable
-private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit) {
+private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit, onOffline: () -> Unit) {
     Column(modifier.fillMaxSize()) {
         Row(Modifier.fillMaxWidth().background(Color.White).padding(horizontal = 20.dp, vertical = 18.dp), verticalAlignment = Alignment.CenterVertically) {
             GcàshMark(Modifier.size(42.dp))
@@ -116,22 +118,21 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit) {
             Text("HELP", color = Blue, fontWeight = FontWeight.Bold)
         }
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            PersonalWalletNotice()
             Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Blue)) {
                 Column(Modifier.fillMaxWidth().padding(20.dp)) {
                     Text("AVAILABLE BALANCE", color = Color.White.copy(alpha = .8f), fontSize = 12.sp)
                     Spacer(Modifier.height(8.dp))
                     Text("₱ 457.00", color = Color.White, fontSize = 34.sp, fontWeight = FontWeight.Bold)
-                    Text("Personal wallet prototype • Fictional balance", color = Color.White, fontSize = 12.sp)
+                    Text("Sample balance • Independent wallet", color = Color.White, fontSize = 11.sp)
                     Spacer(Modifier.height(14.dp))
-                    OutlinedButton(onClick = {}, colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)) { Text("+  Cash in") }
+                    OutlinedButton(onClick = onOffline, colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)) { Text("+  Cash in") }
                 }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf("Send", "Load", "Transfer", "Bills").forEach { ActionTile(it, Modifier.weight(1f)) }
+                listOf("Send", "Load", "Transfer", "Bills").forEach { ActionTile(it, Modifier.weight(1f), onOffline) }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf("Savings", "Cards", "Tap", "More").forEach { ActionTile(it, Modifier.weight(1f)) }
+                listOf("Savings", "Cards", "Tap", "More").forEach { ActionTile(it, Modifier.weight(1f), onOffline) }
             }
             Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(16.dp)) {
                 Column(Modifier.fillMaxWidth().padding(18.dp)) {
@@ -144,13 +145,14 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit) {
                 Text("Recent activity", fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
                 TextButton(onClick = onHistory) { Text("View all") }
             }
-            Text("$count transaction entry • Tap Transactions below to view your entries", color = Color.Gray, fontSize = 12.sp)
+            Text("$count transaction entries", color = Color.Gray, fontSize = 12.sp)
+            Text("Independent personal wallet • Sample data only", color = Color.Gray, fontSize = 10.sp)
         }
     }
 }
 
 @Composable
-private fun ActionTile(label: String, modifier: Modifier) {
+private fun ActionTile(label: String, modifier: Modifier, onOffline: () -> Unit) {
     val symbol = when (label) {
         "Send" -> "➤"
         "Load" -> "📱"
@@ -161,7 +163,7 @@ private fun ActionTile(label: String, modifier: Modifier) {
         "Tap" -> "⌁"
         else -> "•••"
     }
-    Card(modifier, shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+    Card(modifier, onClick = onOffline, shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
         Column(Modifier.fillMaxWidth().padding(vertical = 16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Text(symbol, color = Blue, fontSize = 27.sp, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(7.dp))
@@ -207,24 +209,26 @@ private fun HistoryScreen(modifier: Modifier, transactions: List<DemoTransaction
 }
 
 @Composable
-private fun QrDemoScreen(modifier: Modifier) {
+private fun QrDemoScreen(modifier: Modifier, onOffline: () -> Unit) {
     Column(modifier.fillMaxSize().background(Color.White).padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        PersonalWalletNotice()
-        Spacer(Modifier.height(28.dp))
-        Text("▦", color = Blue, fontSize = 100.sp)
-        Text("QR", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Text("QR scanning and payments are disabled in this prototype.", color = Color.Gray)
+        Icon(Icons.Default.QrCode, contentDescription = null, tint = Blue, modifier = Modifier.size(88.dp))
+        Text("Camera", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text("Open camera to scan a code", color = Color.Gray)
+        Spacer(Modifier.height(20.dp))
+        Button(onClick = onOffline) { Text("Open Camera") }
+        Text("Independent personal wallet • Sample data only", color = Color.Gray, fontSize = 10.sp, modifier = Modifier.padding(top = 24.dp))
     }
 }
 
 @Composable
-private fun ProfileScreen(modifier: Modifier, onWalletLock: () -> Unit) {
+private fun ProfileScreen(modifier: Modifier, onWalletLock: () -> Unit, onOffline: () -> Unit) {
     Column(modifier.fillMaxSize().background(Color.White).padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text("Profile", color = Blue, fontSize = 26.sp, fontWeight = FontWeight.Bold)
-        PersonalWalletNotice()
         Text("Gcàsh User", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
         Text("This profile is stored locally. No phone number, MPIN, or biometric data is collected.", color = Color.Gray)
         OutlinedButton(onClick = onWalletLock, modifier = Modifier.fillMaxWidth()) { Text("Lock wallet") }
+        OutlinedButton(onClick = onOffline, modifier = Modifier.fillMaxWidth()) { Text("Check connection") }
+        Text("Independent personal wallet • Sample data only", color = Color.Gray, fontSize = 10.sp)
     }
 }
 
