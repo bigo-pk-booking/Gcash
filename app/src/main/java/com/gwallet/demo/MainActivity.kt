@@ -32,7 +32,49 @@ private data class DemoTransaction(val id: Int, val title: String, val time: Str
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { GWalletApp() }
+
+        val prefs = getSharedPreferences("gwallet_diagnostics", MODE_PRIVATE)
+        val previousHandler = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            val report = buildString {
+                append("Thread: ").append(thread.name).append("\\n")
+                append(throwable.stackTraceToString())
+            }
+            prefs.edit().putString("last_crash", report).commit()
+            previousHandler?.uncaughtException(thread, throwable)
+        }
+
+        val savedCrash = prefs.getString("last_crash", null)
+        setContent {
+            if (savedCrash != null) {
+                CrashDiagnosticScreen(
+                    report = savedCrash,
+                    onClear = {
+                        prefs.edit().remove("last_crash").apply()
+                        recreate()
+                    }
+                )
+            } else {
+                GWalletApp()
+            }
+        }
+    }
+}
+
+@Composable
+private fun CrashDiagnosticScreen(report: String, onClear: () -> Unit) {
+    MaterialTheme(colorScheme = lightColorScheme(primary = Blue)) {
+        Column(
+            Modifier.fillMaxSize().background(Pale).padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text("G-Wallet Demo • Crash Diagnostic", fontSize = 21.sp, fontWeight = FontWeight.Bold)
+            Text("A previous app crash was detected. Copy or screenshot this report so the issue can be diagnosed.", color = Color.DarkGray)
+            Surface(Modifier.weight(1f).fillMaxWidth(), color = Color.White, shape = RoundedCornerShape(12.dp)) {
+                Text(report, Modifier.padding(12.dp), fontSize = 11.sp, color = Color(0xFF202938))
+            }
+            OutlinedButton(onClick = onClear, modifier = Modifier.fillMaxWidth()) { Text("Clear report and retry") }
+        }
     }
 }
 
