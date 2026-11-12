@@ -3,11 +3,14 @@ package com.gwallet.demo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
@@ -239,64 +242,98 @@ private fun ProfileScreen(modifier: Modifier, onWalletLock: () -> Unit, onOfflin
 private fun DemoLogin(onContinue: () -> Unit) {
     var pin by remember { mutableStateOf("") }
     var error by remember { mutableStateOf(false) }
-    Column(
-        Modifier.fillMaxSize().background(Color(0xFFF4F8FF)).padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        GcàshMark(Modifier.size(112.dp))
-        Spacer(Modifier.height(16.dp))
-        Text("Gcàsh", color = Color(0xFF163B78), fontSize = 30.sp, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(12.dp))
-        Text("Enter your 4-digit PIN", color = Color(0xFF203B63), fontSize = 18.sp)
-        Spacer(Modifier.height(22.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
-            repeat(4) { index ->
-                Box(
-                    Modifier.size(15.dp).background(
-                        if (index < pin.length) Blue else Color(0xFFB7C8E0),
-                        RoundedCornerShape(50)
-                    )
-                )
-            }
-        }
-        if (error) {
-            Spacer(Modifier.height(12.dp))
-            Text("Incorrect PIN. Please try again.", color = Color(0xFFB3261E), fontSize = 13.sp)
-        }
-        Spacer(Modifier.height(26.dp))
-        val keys = listOf("1","2","3","4","5","6","7","8","9","", "0", "⌫")
-        keys.chunked(3).forEach { row ->
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                row.forEach { key ->
-                    Box(Modifier.weight(1f).padding(5.dp), contentAlignment = Alignment.Center) {
-                        if (key.isNotEmpty()) {
-                            FilledTonalButton(
-                                onClick = {
-                                    error = false
-                                    if (key == "⌫") {
-                                        if (pin.isNotEmpty()) pin = pin.dropLast(1)
-                                    } else if (pin.length < 4) {
-                                        pin += key
-                                        if (pin.length == 4) {
-                                            if (pin == "1995") onContinue()
-                                            else { pin = ""; error = true }
-                                        }
-                                    }
-                                },
-                                modifier = Modifier.size(72.dp),
-                                shape = RoundedCornerShape(36.dp),
-                                colors = ButtonDefaults.filledTonalButtonColors(
-                                    containerColor = Color.White,
-                                    contentColor = Blue
-                                )
-                            ) { Text(key, fontSize = 24.sp, fontWeight = FontWeight.SemiBold) }
-                        }
+    Box(Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.gcash_login_bg),
+            contentDescription = "SB19 holiday background",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Box(Modifier.fillMaxSize().background(Color(0x55002D67)))
+        Column(
+            Modifier.fillMaxSize().padding(horizontal = 22.dp, vertical = 26.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                GcàshMark(Modifier.size(76.dp))
+                Text("Gcàsh", color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(22.dp))
+                Surface(
+                    color = Color(0xFF0878F5),
+                    shape = RoundedCornerShape(32.dp),
+                    shadowElevation = 8.dp
+                ) {
+                    Row(
+                        Modifier.padding(horizontal = 24.dp, vertical = 13.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("+63 967 809 1036", color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
                     }
                 }
             }
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = Color.White.copy(alpha = .96f),
+                shape = RoundedCornerShape(24.dp),
+                shadowElevation = 12.dp
+            ) {
+                Column(
+                    Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("Enter your 4-digit PIN", color = Color(0xFF163B78), fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                    Spacer(Modifier.height(18.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
+                        repeat(4) { index ->
+                            Box(
+                                Modifier.size(14.dp).background(
+                                    if (index < pin.length) Blue else Color(0xFFB7C8E0),
+                                    RoundedCornerShape(50)
+                                )
+                            )
+                        }
+                    }
+                    if (error) {
+                        Spacer(Modifier.height(10.dp))
+                        Text("Incorrect PIN. Please try again.", color = Color(0xFFB3261E), fontSize = 13.sp)
+                    }
+                    Spacer(Modifier.height(16.dp))
+                    val keys = listOf("1","2","3","4","5","6","7","8","9","","0","⌫")
+                    keys.chunked(3).forEach { row ->
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                            row.forEach { key ->
+                                Box(Modifier.weight(1f).padding(3.dp), contentAlignment = Alignment.Center) {
+                                    if (key.isNotEmpty()) {
+                                        FilledTonalButton(
+                                            onClick = {
+                                                error = false
+                                                if (key == "⌫") {
+                                                    if (pin.isNotEmpty()) pin = pin.dropLast(1)
+                                                } else if (pin.length < 4) {
+                                                    pin += key
+                                                    if (pin.length == 4) {
+                                                        if (pin == "1995") onContinue()
+                                                        else { pin = ""; error = true }
+                                                    }
+                                                }
+                                            },
+                                            modifier = Modifier.size(62.dp),
+                                            shape = RoundedCornerShape(31.dp),
+                                            colors = ButtonDefaults.filledTonalButtonColors(
+                                                containerColor = Color(0xFFF1F6FF),
+                                                contentColor = Blue
+                                            )
+                                        ) { Text(key, fontSize = 22.sp, fontWeight = FontWeight.SemiBold) }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    Text("Personal wallet • Gcàsh", color = Color.Gray, fontSize = 10.sp)
+                }
+            }
         }
-        Spacer(Modifier.height(18.dp))
-        Text("Independent personal wallet • Sample information only", color = Color.Gray, fontSize = 11.sp)
     }
 }
