@@ -96,17 +96,31 @@ private fun GWalletApp() {
 }
 
 @Composable
-private fun GcàshMark(modifier: Modifier = Modifier) {
+private fun WalletMark(modifier: Modifier = Modifier) {
     androidx.compose.foundation.Canvas(modifier) {
         val w = size.width
         val h = size.height
-        drawRoundRect(brush = androidx.compose.ui.graphics.Brush.linearGradient(listOf(Color(0xFF2494F4), Color(0xFF075CEB))), cornerRadius = androidx.compose.ui.geometry.CornerRadius(w * .22f))
-        val center = androidx.compose.ui.geometry.Offset(w * .48f, h * .5f)
-        val radius = w * .29f
-        drawArc(Color(0xFF062CB8), 130f, 260f, false, topLeft = androidx.compose.ui.geometry.Offset(center.x-radius, center.y-radius), size = androidx.compose.ui.geometry.Size(radius*2, radius*2), style = androidx.compose.ui.graphics.drawscope.Stroke(width=w*.075f, cap=androidx.compose.ui.graphics.StrokeCap.Round))
-        drawArc(Color.White, 42f, 276f, false, topLeft = androidx.compose.ui.geometry.Offset(center.x-radius*.68f, center.y-radius*.68f), size = androidx.compose.ui.geometry.Size(radius*1.36f, radius*1.36f), style = androidx.compose.ui.graphics.drawscope.Stroke(width=w*.075f, cap=androidx.compose.ui.graphics.StrokeCap.Round))
-        drawLine(Color.White, androidx.compose.ui.geometry.Offset(center.x+w*.02f, center.y), androidx.compose.ui.geometry.Offset(center.x+w*.20f, center.y), w*.075f, cap=androidx.compose.ui.graphics.StrokeCap.Round)
-        drawArc(Color(0xFF8AD9FF), -68f, 136f, false, topLeft = androidx.compose.ui.geometry.Offset(w*.65f, h*.34f), size = androidx.compose.ui.geometry.Size(w*.19f, h*.32f), style = androidx.compose.ui.graphics.drawscope.Stroke(width=w*.07f, cap=androidx.compose.ui.graphics.StrokeCap.Round))
+        drawRoundRect(
+            color = Color(0xFF183B65),
+            cornerRadius = androidx.compose.ui.geometry.CornerRadius(w * .18f)
+        )
+        drawRoundRect(
+            color = Color.White,
+            topLeft = androidx.compose.ui.geometry.Offset(w * .18f, h * .25f),
+            size = androidx.compose.ui.geometry.Size(w * .64f, h * .5f),
+            cornerRadius = androidx.compose.ui.geometry.CornerRadius(w * .08f)
+        )
+        drawRoundRect(
+            color = Color(0xFF35A6A0),
+            topLeft = androidx.compose.ui.geometry.Offset(w * .55f, h * .39f),
+            size = androidx.compose.ui.geometry.Size(w * .32f, h * .22f),
+            cornerRadius = androidx.compose.ui.geometry.CornerRadius(w * .06f)
+        )
+        drawCircle(
+            color = Color.White,
+            radius = w * .035f,
+            center = androidx.compose.ui.geometry.Offset(w * .68f, h * .5f)
+        )
     }
 }
 
@@ -114,11 +128,11 @@ private fun GcàshMark(modifier: Modifier = Modifier) {
 private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit, onOffline: () -> Unit) {
     Column(modifier.fillMaxSize()) {
         Row(Modifier.fillMaxWidth().background(Color.White).padding(horizontal = 20.dp, vertical = 18.dp), verticalAlignment = Alignment.CenterVertically) {
-            GcàshMark(Modifier.size(42.dp))
+            WalletMark(Modifier.size(42.dp))
             Spacer(Modifier.width(10.dp))
             Column {
                 Text("Hello!", color = Blue, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text("Welcome to Gcàsh", color = Color.Gray, fontSize = 11.sp)
+                Text("Welcome to G-Wallet Demo", color = Color.Gray, fontSize = 11.sp)
             }
             Spacer(Modifier.weight(1f))
             TextButton(onClick = onOffline) { Text("HELP", color = Blue, fontWeight = FontWeight.Bold) }
@@ -126,10 +140,10 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit, on
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
             Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Blue)) {
                 Column(Modifier.fillMaxWidth().padding(20.dp)) {
-                    Text("AVAILABLE BALANCE", color = Color.White.copy(alpha = .8f), fontSize = 12.sp)
+                    Text("SAMPLE BALANCE", color = Color.White.copy(alpha = .8f), fontSize = 12.sp)
                     Spacer(Modifier.height(8.dp))
                     Text("₱ 457.00", color = Color.White, fontSize = 34.sp, fontWeight = FontWeight.Bold)
-                    Text("Wallet balance • Independent wallet", color = Color.White, fontSize = 11.sp)
+                    Text("DEMO BALANCE • Not real money", color = Color.White, fontSize = 11.sp)
                     Spacer(Modifier.height(14.dp))
                     OutlinedButton(onClick = onOffline, colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)) { Text("+  Cash in") }
                 }
@@ -142,7 +156,7 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit, on
             }
             Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(16.dp)) {
                 Column(Modifier.fillMaxWidth().padding(18.dp)) {
-                    Text("Explore Gcàsh", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    Text("Explore your demo wallet", fontWeight = FontWeight.Bold, fontSize = 18.sp)
                     Spacer(Modifier.height(6.dp))
                     Text("Manage your personal wallet interface and sample entries.", color = Color.Gray, fontSize = 13.sp)
                 }
@@ -152,7 +166,7 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit, on
                 TextButton(onClick = onHistory) { Text("View all") }
             }
             Text("$count transaction entries", color = Color.Gray, fontSize = 12.sp)
-            Text("Independent personal wallet • Sample data only", color = Color.Gray, fontSize = 10.sp)
+            Text("DEMO ONLY • Sample data • No real payments", color = Color.Gray, fontSize = 10.sp)
         }
     }
 }
@@ -182,11 +196,11 @@ private fun ActionTile(label: String, modifier: Modifier, onOffline: () -> Unit)
 private fun HistoryScreen(modifier: Modifier, transactions: List<DemoTransaction>) {
     Column(modifier.fillMaxSize()) {
         Box(Modifier.fillMaxWidth().background(Blue).padding(22.dp), contentAlignment = Alignment.Center) {
-            Text("Transaction History", color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
+            Text("Demo Transaction History", color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
         }
         Column(Modifier.fillMaxWidth().background(Color.White).padding(horizontal = 20.dp, vertical = 12.dp)) {
-            Text("As of Nov 13, 2026", color = Color(0xFF203B63), fontSize = 12.sp, fontWeight = FontWeight.Medium)
-            Text("Gcàsh personal wallet • Sample history", color = Color.Gray, fontSize = 9.sp)
+            Text("Sample date • Nov 13, 2026", color = Color(0xFF203B63), fontSize = 12.sp, fontWeight = FontWeight.Medium)
+            Text("DEMO ONLY • Fictional sample history", color = Color.Gray, fontSize = 9.sp)
         }
         Text("Today", modifier = Modifier.fillMaxWidth().background(Color(0xFFF4F7FC)).padding(horizontal = 20.dp, vertical = 10.dp), fontWeight = FontWeight.SemiBold, color = Color(0xFF263B5A), fontSize = 14.sp)
         if (transactions.isEmpty()) {
@@ -222,7 +236,7 @@ private fun QrDemoScreen(modifier: Modifier, onOffline: () -> Unit) {
         Text("Open camera to scan a code", color = Color.Gray)
         Spacer(Modifier.height(20.dp))
         Button(onClick = onOffline) { Text("Open Camera") }
-        Text("Independent personal wallet • Sample data only", color = Color.Gray, fontSize = 10.sp, modifier = Modifier.padding(top = 24.dp))
+        Text("DEMO ONLY • Sample data • No real payments", color = Color.Gray, fontSize = 10.sp, modifier = Modifier.padding(top = 24.dp))
     }
 }
 
@@ -230,11 +244,11 @@ private fun QrDemoScreen(modifier: Modifier, onOffline: () -> Unit) {
 private fun ProfileScreen(modifier: Modifier, onWalletLock: () -> Unit, onOffline: () -> Unit) {
     Column(modifier.fillMaxSize().background(Color.White).padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text("Profile", color = Blue, fontSize = 26.sp, fontWeight = FontWeight.Bold)
-        Text("Gcàsh User", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-        Text("This profile is stored locally. No phone number, MPIN, or biometric data is collected.", color = Color.Gray)
+        Text("G-Wallet Demo User", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+        Text("Demo profile only. No payments or real financial records are created.", color = Color.Gray)
         OutlinedButton(onClick = onWalletLock, modifier = Modifier.fillMaxWidth()) { Text("Lock wallet") }
         OutlinedButton(onClick = onOffline, modifier = Modifier.fillMaxWidth()) { Text("Check connection") }
-        Text("Independent personal wallet • Sample data only", color = Color.Gray, fontSize = 10.sp)
+        Text("DEMO ONLY • Sample data • No real payments", color = Color.Gray, fontSize = 10.sp)
     }
 }
 
@@ -256,8 +270,8 @@ private fun DemoLogin(onContinue: () -> Unit) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                GcàshMark(Modifier.size(76.dp))
-                Text("Gcàsh", color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                WalletMark(Modifier.size(76.dp))
+                Text("G-Wallet Demo", color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(22.dp))
                 Surface(
                     color = Color(0xFF0878F5),
@@ -268,7 +282,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
                         Modifier.padding(horizontal = 24.dp, vertical = 13.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("+63 967 809 1036", color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
+                        Text("DEMO WALLET • SAMPLE APP", color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
                     }
                 }
             }
@@ -282,7 +296,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
                     Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("Enter your 4-digit PIN", color = Color(0xFF163B78), fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                    Text("Enter demo PIN (1995)", color = Color(0xFF163B78), fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
                     Spacer(Modifier.height(18.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
                         repeat(4) { index ->
@@ -331,7 +345,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
                         }
                     }
                     Spacer(Modifier.height(8.dp))
-                    Text("Personal wallet • Gcàsh", color = Color.Gray, fontSize = 10.sp)
+                    Text("DEMO ONLY • No real money or payments", color = Color.Gray, fontSize = 10.sp)
                 }
             }
         }
