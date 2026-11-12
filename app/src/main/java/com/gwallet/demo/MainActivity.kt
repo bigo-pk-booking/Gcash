@@ -115,7 +115,7 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit, on
                 Text("Welcome to Gcàsh", color = Color.Gray, fontSize = 11.sp)
             }
             Spacer(Modifier.weight(1f))
-            Text("HELP", color = Blue, fontWeight = FontWeight.Bold)
+            TextButton(onClick = onOffline) { Text("HELP", color = Blue, fontWeight = FontWeight.Bold) }
         }
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
             Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Blue)) {
@@ -163,7 +163,7 @@ private fun ActionTile(label: String, modifier: Modifier, onOffline: () -> Unit)
         "Tap" -> "⌁"
         else -> "•••"
     }
-    Card(modifier, onClick = onOffline, shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+    Card(onClick = onOffline, modifier = modifier, shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
         Column(Modifier.fillMaxWidth().padding(vertical = 16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Text(symbol, color = Blue, fontSize = 27.sp, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(7.dp))
