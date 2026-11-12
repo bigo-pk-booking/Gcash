@@ -39,6 +39,7 @@ private fun GWalletApp() {
     var showLogin by remember { mutableStateOf(true) }
     var transactions by remember {
         mutableStateOf(listOf(
+            DemoTransaction(2, "Send Money", "10:25 PM", "− ₱750.00", "Yesterday"),
             DemoTransaction(1, "ATM withdrawal • 7-Eleven", "Transaction entry", "− ₱2,800.00", "Recent")
         ))
     }
@@ -59,7 +60,7 @@ private fun GWalletApp() {
             ) { padding ->
                 when (tab) {
                     0 -> HomeScreen(Modifier.padding(padding), transactions.size, onHistory = { tab = 1 })
-                    1 -> HistoryScreen(Modifier.padding(padding), transactions, onDelete = { id -> transactions = transactions.filterNot { it.id == id } })
+                    1 -> HistoryScreen(Modifier.padding(padding), transactions)
                     2 -> QrDemoScreen(Modifier.padding(padding))
                     else -> ProfileScreen(Modifier.padding(padding), onWalletLock = { showLogin = true })
                 }
@@ -117,7 +118,7 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit) {
                 Text("Recent activity", fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
                 TextButton(onClick = onHistory) { Text("View all") }
             }
-            Text("$count transaction entry • Tap Transactions below to view or delete it", color = Color.Gray, fontSize = 12.sp)
+            Text("$count transaction entry • Tap Transactions below to view your entries", color = Color.Gray, fontSize = 12.sp)
         }
     }
 }
@@ -144,7 +145,7 @@ private fun ActionTile(label: String, modifier: Modifier) {
 }
 
 @Composable
-private fun HistoryScreen(modifier: Modifier, transactions: List<DemoTransaction>, onDelete: (Int) -> Unit) {
+private fun HistoryScreen(modifier: Modifier, transactions: List<DemoTransaction>) {
     Column(modifier.fillMaxSize()) {
         Box(Modifier.fillMaxWidth().background(Blue).padding(22.dp), contentAlignment = Alignment.Center) {
             Text("Transaction History", color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
@@ -165,10 +166,7 @@ private fun HistoryScreen(modifier: Modifier, transactions: List<DemoTransaction
                                 Spacer(Modifier.height(8.dp))
                                 Text(tx.title, color = Color(0xFF172B4D), fontSize = 16.sp, fontWeight = FontWeight.Medium)
                             }
-                            Column(horizontalAlignment = Alignment.End) {
-                                Text(tx.amount, color = Color(0xFF172B4D), fontWeight = FontWeight.SemiBold)
-                                TextButton(onClick = { onDelete(tx.id) }, contentPadding = PaddingValues(0.dp)) { Text("Delete", color = Color(0xFFB3261E), fontSize = 11.sp) }
-                            }
+                            Text(tx.amount, color = Color(0xFF172B4D), fontWeight = FontWeight.SemiBold)
                         }
                         HorizontalDivider(color = Color(0xFFE6EAF0))
                     }
