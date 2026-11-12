@@ -176,7 +176,11 @@ private fun HistoryScreen(modifier: Modifier, transactions: List<DemoTransaction
         Box(Modifier.fillMaxWidth().background(Blue).padding(22.dp), contentAlignment = Alignment.Center) {
             Text("Transaction History", color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
         }
-        Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) { PersonalWalletNotice() }
+        Column(Modifier.fillMaxWidth().background(Color.White).padding(horizontal = 20.dp, vertical = 12.dp)) {
+            Text("As of Nov 13, 2026", color = Color(0xFF203B63), fontSize = 12.sp, fontWeight = FontWeight.Medium)
+            Text("Gcàsh personal wallet • Sample history", color = Color.Gray, fontSize = 9.sp)
+        }
+        Text("Today", modifier = Modifier.fillMaxWidth().background(Color(0xFFF4F7FC)).padding(horizontal = 20.dp, vertical = 10.dp), fontWeight = FontWeight.SemiBold, color = Color(0xFF263B5A), fontSize = 14.sp)
         if (transactions.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("No transaction records") }
         } else {
