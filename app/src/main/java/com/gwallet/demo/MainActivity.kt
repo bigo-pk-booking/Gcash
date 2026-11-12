@@ -126,7 +126,7 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit, on
                     Text("AVAILABLE BALANCE", color = Color.White.copy(alpha = .8f), fontSize = 12.sp)
                     Spacer(Modifier.height(8.dp))
                     Text("₱ 457.00", color = Color.White, fontSize = 34.sp, fontWeight = FontWeight.Bold)
-                    Text("Sample balance • Independent wallet", color = Color.White, fontSize = 11.sp)
+                    Text("Wallet balance • Independent wallet", color = Color.White, fontSize = 11.sp)
                     Spacer(Modifier.height(14.dp))
                     OutlinedButton(onClick = onOffline, colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)) { Text("+  Cash in") }
                 }
