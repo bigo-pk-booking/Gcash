@@ -332,7 +332,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
                     Text("G-Wallet", color = Color.White, fontSize = 29.sp, fontWeight = FontWeight.Bold)
                 }
             }
-            Spacer(Modifier.height(42.dp))
+            Spacer(Modifier.height(62.dp))
             Surface(
                 color = Color(0xFF176FE5),
                 shape = RoundedCornerShape(32.dp),
