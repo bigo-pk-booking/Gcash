@@ -3,14 +3,11 @@ package com.gwallet.demo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
@@ -312,13 +309,14 @@ private fun DemoLogin(onContinue: () -> Unit) {
         )
     }
     Box(Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.gcash_login_bg),
-            contentDescription = "SB19 holiday background",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+        Box(
+            Modifier.fillMaxSize().background(
+                androidx.compose.ui.graphics.Brush.verticalGradient(
+                    colors = listOf(Color(0xFF173F70), Color(0xFF071A33), Color(0xFF102C50))
+                )
+            )
         )
-        Box(Modifier.fillMaxSize().background(Color(0x55002D67)))
+        Box(Modifier.fillMaxSize().background(Color(0x22002D67)))
         Column(
             Modifier.fillMaxSize().padding(horizontal = 22.dp, vertical = 26.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
