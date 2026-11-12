@@ -1,5 +1,6 @@
 name: Build Android APK
 
+# Rebuild requested after the previous artifact link returned 404.
 on:
   workflow_dispatch:
   push:
