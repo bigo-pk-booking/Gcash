@@ -36,15 +36,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun GWalletApp() {
     var tab by remember { mutableStateOf(0) }
-    var showLogin by remember { mutableStateOf(false) }
+    var showLogin by remember { mutableStateOf(true) }
     var transactions by remember {
         mutableStateOf(listOf(
-            DemoTransaction(1, "Online payment • Demo", "2:52 AM", "− ₱1,800.00", "Today"),
-            DemoTransaction(2, "Online payment • Demo", "1:47 AM", "− ₱1,000.00", "Today"),
-            DemoTransaction(3, "Send money • Demo", "10:25 PM", "− ₱750.00", "Yesterday"),
-            DemoTransaction(4, "ATM withdrawal • Sample", "7:15 AM", "− ₱3,218.00", "Nov 11, 2026"),
-            DemoTransaction(5, "Send money • Demo", "6:31 PM", "− ₱300.00", "Nov 10, 2026"),
-            DemoTransaction(6, "Demo cash in", "5:36 PM", "+ ₱500.00", "Nov 10, 2026")
+            DemoTransaction(1, "ATM withdrawal • 7-Eleven", "Transaction entry", "− ₱2,800.00", "Recent")
         ))
     }
     MaterialTheme(colorScheme = lightColorScheme(primary = Blue, background = Pale)) {
@@ -57,7 +52,7 @@ private fun GWalletApp() {
                     NavigationBar(containerColor = Color.White) {
                         NavigationBarItem(selected = tab == 0, onClick = { tab = 0 }, icon = { Icon(Icons.Default.Home, null) }, label = { Text("Home") })
                         NavigationBarItem(selected = tab == 1, onClick = { tab = 1 }, icon = { Icon(Icons.Default.ReceiptLong, null) }, label = { Text("Transactions") })
-                        NavigationBarItem(selected = tab == 2, onClick = { tab = 2 }, icon = { Icon(Icons.Default.QrCode, null) }, label = { Text("QR demo") })
+                        NavigationBarItem(selected = tab == 2, onClick = { tab = 2 }, icon = { Icon(Icons.Default.QrCode, null) }, label = { Text("QR") })
                         NavigationBarItem(selected = tab == 3, onClick = { tab = 3 }, icon = { Icon(Icons.Default.AccountCircle, null) }, label = { Text("Profile") })
                     }
                 }
@@ -74,7 +69,7 @@ private fun GWalletApp() {
 }
 
 @Composable
-private fun DemoBanner() {
+private fun PersonalWalletNotice() {
     Surface(color = Color(0xFFFFF2D8), shape = RoundedCornerShape(10.dp), modifier = Modifier.fillMaxWidth()) {
         Text("PERSONAL WALLET • Fictional balance and sample records only. Not connected to any bank or payment service.", color = Color(0xFF754B00), fontSize = 11.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(10.dp))
     }
@@ -97,32 +92,32 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit) {
             DemoBanner()
             Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Blue)) {
                 Column(Modifier.fillMaxWidth().padding(20.dp)) {
-                    Text("AVAILABLE DEMO BALANCE", color = Color.White.copy(alpha = .8f), fontSize = 12.sp)
+                    Text("AVAILABLE BALANCE", color = Color.White.copy(alpha = .8f), fontSize = 12.sp)
                     Spacer(Modifier.height(8.dp))
-                    Text("₱ 5,000.00", color = Color.White, fontSize = 34.sp, fontWeight = FontWeight.Bold)
-                    Text("Simulated funds • No real value", color = Color.White, fontSize = 12.sp)
+                    Text("₱ 457.00", color = Color.White, fontSize = 34.sp, fontWeight = FontWeight.Bold)
+                    Text("Personal wallet prototype • Fictional balance", color = Color.White, fontSize = 12.sp)
                     Spacer(Modifier.height(14.dp))
-                    OutlinedButton(onClick = {}, colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)) { Text("+  Demo cash in") }
+                    OutlinedButton(onClick = {}, colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)) { Text("+  Cash in") }
                 }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("Send", "Load", "Transfer", "Bills").forEach { ActionTile(it, Modifier.weight(1f)) }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf("Savings", "Cards", "Tap demo", "More").forEach { ActionTile(it, Modifier.weight(1f)) }
+                listOf("Savings", "Cards", "Tap", "More").forEach { ActionTile(it, Modifier.weight(1f)) }
             }
             Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(16.dp)) {
                 Column(Modifier.fillMaxWidth().padding(18.dp)) {
-                    Text("Explore the Demo", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    Text("Explore Gcàsh", fontWeight = FontWeight.Bold, fontSize = 18.sp)
                     Spacer(Modifier.height(6.dp))
-                    Text("Try the sample wallet layout and manage fictional transaction entries.", color = Color.Gray, fontSize = 13.sp)
+                    Text("Manage your personal wallet interface and sample entries.", color = Color.Gray, fontSize = 13.sp)
                 }
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Recent activity", fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
                 TextButton(onClick = onHistory) { Text("View all") }
             }
-            Text("$count sample records • Tap Transactions below to view or delete them", color = Color.Gray, fontSize = 12.sp)
+            Text("$count transaction entry • Tap Transactions below to view or delete it", color = Color.Gray, fontSize = 12.sp)
         }
     }
 }
@@ -134,7 +129,7 @@ private fun ActionTile(label: String, modifier: Modifier) {
             Text("✦", color = Blue, fontSize = 24.sp, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(5.dp))
             Text(label, color = Color(0xFF34445D), fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
-            Text("Demo", color = Color.Gray, fontSize = 9.sp)
+            Text("Wallet", color = Color.Gray, fontSize = 9.sp)
         }
     }
 }
@@ -147,7 +142,7 @@ private fun HistoryScreen(modifier: Modifier, transactions: List<DemoTransaction
         }
         Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) { DemoBanner() }
         if (transactions.isEmpty()) {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("No demo records remaining") }
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("No transaction records") }
         } else {
             LazyColumn(contentPadding = PaddingValues(bottom = 16.dp)) {
                 transactions.groupBy { it.group }.forEach { (group, records) ->
@@ -163,7 +158,7 @@ private fun HistoryScreen(modifier: Modifier, transactions: List<DemoTransaction
                             }
                             Column(horizontalAlignment = Alignment.End) {
                                 Text(tx.amount, color = Color(0xFF172B4D), fontWeight = FontWeight.SemiBold)
-                                TextButton(onClick = { onDelete(tx.id) }, contentPadding = PaddingValues(0.dp)) { Text("Delete demo", color = Color(0xFFB3261E), fontSize = 11.sp) }
+                                TextButton(onClick = { onDelete(tx.id) }, contentPadding = PaddingValues(0.dp)) { Text("Delete", color = Color(0xFFB3261E), fontSize = 11.sp) }
                             }
                         }
                         HorizontalDivider(color = Color(0xFFE6EAF0))
@@ -186,28 +181,76 @@ private fun QrDemoScreen(modifier: Modifier) {
 }
 
 @Composable
-private fun ProfileScreen(modifier: Modifier, onDemoLock: () -> Unit) {
+private fun ProfileScreen(modifier: Modifier, onWalletLock: () -> Unit) {
     Column(modifier.fillMaxSize().background(Color.White).padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text("Profile", color = Blue, fontSize = 26.sp, fontWeight = FontWeight.Bold)
         DemoBanner()
         Text("Gcàsh User", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-        Text("This profile is local to the demo. No phone number, MPIN, or biometric data is collected.", color = Color.Gray)
-        OutlinedButton(onClick = onDemoLock, modifier = Modifier.fillMaxWidth()) { Text("Open demo welcome screen") }
+        Text("This profile is stored locally. No phone number, MPIN, or biometric data is collected.", color = Color.Gray)
+        OutlinedButton(onClick = onWalletLock, modifier = Modifier.fillMaxWidth()) { Text("Lock wallet") }
     }
 }
 
 @Composable
 private fun DemoLogin(onContinue: () -> Unit) {
-    Column(Modifier.fillMaxSize().background(Color(0xFF0B2860)).padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Text("G", color = Color.White, fontSize = 64.sp, fontWeight = FontWeight.Black)
-        Text("Gcàsh", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Text("Independent wallet interface prototype", color = Color.White.copy(alpha = .8f))
-        Spacer(Modifier.height(32.dp))
-        DemoBanner()
-        Spacer(Modifier.height(24.dp))
-        Text("Welcome to your demo wallet", color = Color.White, fontSize = 18.sp)
-        Spacer(Modifier.height(16.dp))
-        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Continue to demo") }
-        Text("No real login, PIN, phone number, or financial account is used.", color = Color.White.copy(alpha = .8f), fontSize = 12.sp)
+    var pin by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf(false) }
+    Column(
+        Modifier.fillMaxSize().background(Color(0xFF0B2860)).padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Gcàsh", color = Color.White, fontSize = 34.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(12.dp))
+        Text("Enter your 4-digit PIN", color = Color.White, fontSize = 18.sp)
+        Spacer(Modifier.height(22.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
+            repeat(4) { index ->
+                Box(
+                    Modifier.size(15.dp).background(
+                        if (index < pin.length) Color.White else Color.White.copy(alpha = .3f),
+                        RoundedCornerShape(50)
+                    )
+                )
+            }
+        }
+        if (error) {
+            Spacer(Modifier.height(12.dp))
+            Text("Incorrect PIN. Please try again.", color = Color(0xFFFFD1D1), fontSize = 13.sp)
+        }
+        Spacer(Modifier.height(26.dp))
+        val keys = listOf("1","2","3","4","5","6","7","8","9","", "0", "⌫")
+        keys.chunked(3).forEach { row ->
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                row.forEach { key ->
+                    Box(Modifier.weight(1f).padding(5.dp), contentAlignment = Alignment.Center) {
+                        if (key.isNotEmpty()) {
+                            FilledTonalButton(
+                                onClick = {
+                                    error = false
+                                    if (key == "⌫") {
+                                        if (pin.isNotEmpty()) pin = pin.dropLast(1)
+                                    } else if (pin.length < 4) {
+                                        pin += key
+                                        if (pin.length == 4) {
+                                            if (pin == "1995") onContinue()
+                                            else { pin = ""; error = true }
+                                        }
+                                    }
+                                },
+                                modifier = Modifier.size(72.dp),
+                                shape = RoundedCornerShape(36.dp),
+                                colors = ButtonDefaults.filledTonalButtonColors(
+                                    containerColor = Color.White,
+                                    contentColor = Blue
+                                )
+                            ) { Text(key, fontSize = 24.sp, fontWeight = FontWeight.SemiBold) }
+                        }
+                    }
+                }
+            }
+        }
+        Spacer(Modifier.height(18.dp))
+        Text("Personal wallet prototype • Sample information only", color = Color.White.copy(alpha = .8f), fontSize = 11.sp)
     }
 }
