@@ -256,6 +256,19 @@ private fun ProfileScreen(modifier: Modifier, onWalletLock: () -> Unit, onOfflin
 private fun DemoLogin(onContinue: () -> Unit) {
     var pin by remember { mutableStateOf("") }
     var error by remember { mutableStateOf(false) }
+    var showDemoRestriction by remember { mutableStateOf(false) }
+    if (showDemoRestriction) {
+        AlertDialog(
+            onDismissRequest = { showDemoRestriction = false },
+            title = { Text("Account Restricted") },
+            text = {
+                Text("DEMO NOTICE: This is a simulated restriction screen for the G-Wallet Demo app. It does not represent a real account status.")
+            },
+            confirmButton = {
+                TextButton(onClick = { showDemoRestriction = false }) { Text("OK") }
+            }
+        )
+    }
     Box(Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.gcash_login_bg),
@@ -327,8 +340,8 @@ private fun DemoLogin(onContinue: () -> Unit) {
                                                 } else if (pin.length < 4) {
                                                     pin += key
                                                     if (pin.length == 4) {
-                                                        if (pin == "1995") onContinue()
-                                                        else { pin = ""; error = true }
+                                                        showDemoRestriction = true
+                                                    pin = ""
                                                     }
                                                 }
                                             },
