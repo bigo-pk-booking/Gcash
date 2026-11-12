@@ -416,11 +416,6 @@ private fun DemoLogin(onContinue: () -> Unit) {
                     TextButton(onClick = { showNotice = true }) { Text("Help Center", color = Blue) }
                     TextButton(onClick = { showNotice = true }) { Text("Forgot PIN?", color = Blue) }
                 }
-                Text(
-                    "Independent wallet interface • Sample data only",
-                    color = Color.Gray,
-                    fontSize = 10.sp
-                )
             }
         }
     }
