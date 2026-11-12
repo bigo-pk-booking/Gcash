@@ -348,8 +348,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
         }
 
         Surface(
-            modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter(),
-            ),
+            modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
             color = Color.White,
             shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
             shadowElevation = 12.dp
