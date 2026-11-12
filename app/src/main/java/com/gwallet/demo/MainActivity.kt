@@ -65,7 +65,7 @@ private fun CrashDiagnosticScreen(report: String, onClear: () -> Unit) {
             Modifier.fillMaxSize().background(Pale).padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("G-Wallet Demo • Crash Diagnostic", fontSize = 21.sp, fontWeight = FontWeight.Bold)
+            Text("G-Wallet • Crash Diagnostic", fontSize = 21.sp, fontWeight = FontWeight.Bold)
             Text("A previous app crash was detected. Copy or screenshot this report so the issue can be diagnosed.", color = Color.DarkGray)
             Surface(Modifier.weight(1f).fillMaxWidth(), color = Color.White, shape = RoundedCornerShape(12.dp)) {
                 Text(report, Modifier.padding(12.dp), fontSize = 11.sp, color = Color(0xFF202938))
@@ -171,7 +171,7 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit, on
             Spacer(Modifier.width(10.dp))
             Column {
                 Text("Hello!", color = Blue, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text("Welcome to G-Wallet Demo", color = Color.Gray, fontSize = 11.sp)
+                Text("Welcome to G-Wallet", color = Color.Gray, fontSize = 11.sp)
             }
             Spacer(Modifier.weight(1f))
             TextButton(onClick = onOffline) { Text("HELP", color = Blue, fontWeight = FontWeight.Bold) }
@@ -283,7 +283,7 @@ private fun QrDemoScreen(modifier: Modifier, onOffline: () -> Unit) {
 private fun ProfileScreen(modifier: Modifier, onWalletLock: () -> Unit, onOffline: () -> Unit) {
     Column(modifier.fillMaxSize().background(Color.White).padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text("Profile", color = Blue, fontSize = 26.sp, fontWeight = FontWeight.Bold)
-        Text("G-Wallet Demo User", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+        Text("G-Wallet User", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
         Text("Demo profile only. No payments or real financial records are created.", color = Color.Gray)
         OutlinedButton(onClick = onWalletLock, modifier = Modifier.fillMaxWidth()) { Text("Lock wallet") }
         OutlinedButton(onClick = onOffline, modifier = Modifier.fillMaxWidth()) { Text("Check connection") }
@@ -303,7 +303,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
             onDismissRequest = { showDemoNotice = false },
             title = { Text("Demo account notice") },
             text = {
-                Text("This is a simulated message in G-Wallet Demo. It is not a real account restriction or payment-provider notice.")
+                Text("This is a simulated message in G-Wallet. It is not a real account restriction or payment-provider notice.")
             },
             confirmButton = {
                 TextButton(onClick = { showDemoNotice = false }) { Text("OK") }
@@ -326,8 +326,8 @@ private fun DemoLogin(onContinue: () -> Unit) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(Modifier.height(24.dp))
                 WalletMark(Modifier.size(68.dp))
-                Text("G-WALLET", color = Color.White, fontSize = 29.sp, fontWeight = FontWeight.ExtraBold)
-                Text("HOLIDAY EDITION • DEMO", color = Color(0xFFFFDCE7), fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text("G-Wallet", color = Color.White, fontSize = 29.sp, fontWeight = FontWeight.ExtraBold)
+                Text("HOLIDAY EDITION", color = Color(0xFFFFDCE7), fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(22.dp))
                 Surface(
                     color = Color(0xFF176FE5),
@@ -335,7 +335,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
                     shadowElevation = 8.dp
                 ) {
                     Text(
-                        "DEMO ACCOUNT  •••• 0000",
+                        "MY WALLET  •••• 0000",
                         Modifier.padding(horizontal = 22.dp, vertical = 13.dp),
                         color = Color.White,
                         fontSize = 17.sp,
@@ -346,7 +346,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("Season's Greetings", color = Color.White, fontSize = 25.sp, fontWeight = FontWeight.Bold)
-                Text("A little festive look for your demo wallet", color = Color(0xFFFFDCE7), fontSize = 12.sp)
+                Text("A little festive look for your wallet", color = Color(0xFFFFDCE7), fontSize = 12.sp)
                 Spacer(Modifier.height(20.dp))
                 if (!showPinPad) {
                     Surface(
@@ -362,7 +362,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
                             ) {
                                 Text("◎", color = Blue, fontSize = 34.sp)
                                 TextButton(onClick = { showDemoNotice = true }) {
-                                    Text("Biometric Demo", color = Blue, fontWeight = FontWeight.SemiBold)
+                                    Text("Biometric Login", color = Blue, fontWeight = FontWeight.SemiBold)
                                 }
                             }
                             androidx.compose.material3.VerticalDivider(
@@ -391,7 +391,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
                             Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 18.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("Enter demo PIN", color = Color(0xFF163B78), fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                            Text("Enter 4-digit PIN", color = Color(0xFF163B78), fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
                             Spacer(Modifier.height(16.dp))
                             Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
                                 repeat(4) { index ->
@@ -447,7 +447,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
                 }
                 Spacer(Modifier.height(16.dp))
                 TextButton(onClick = { showDemoNotice = true }) {
-                    Text("Lock Demo Account", color = Color.White, fontSize = 14.sp)
+                    Text("Lock Account", color = Color.White, fontSize = 14.sp)
                 }
             }
 
@@ -464,7 +464,7 @@ private fun DemoLogin(onContinue: () -> Unit) {
                     }
                 }
                 Text(
-                    "DEMO ONLY • No real money or payments",
+                    "Independent wallet app • Sample interface only",
                     color = Color(0xFFFFDCE7),
                     fontSize = 10.sp
                 )
