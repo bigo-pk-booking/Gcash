@@ -294,6 +294,7 @@ private fun ProfileScreen(modifier: Modifier, onWalletLock: () -> Unit, onOfflin
 @Composable
 private fun DemoLogin(onContinue: () -> Unit) {
     var pin by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("+639-9678091036") }
     var showNotice by remember { mutableStateOf(false) }
 
     if (showNotice) {
@@ -337,12 +338,25 @@ private fun DemoLogin(onContinue: () -> Unit) {
                 shape = RoundedCornerShape(32.dp),
                 shadowElevation = 8.dp
             ) {
-                Text(
-                    "MY WALLET  •••• 0000",
-                    Modifier.padding(horizontal = 24.dp, vertical = 14.dp),
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                TextField(
+                    value = phoneNumber,
+                    onValueChange = { value -> phoneNumber = value.take(16) },
+                    singleLine = true,
+                    modifier = Modifier.width(300.dp),
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        disabledContainerColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        cursorColor = Color.White
+                    ),
+                    placeholder = { Text("+639-XXXXXXXXX", color = Color(0xFFDCEBFF)) }
                 )
             }
         }
