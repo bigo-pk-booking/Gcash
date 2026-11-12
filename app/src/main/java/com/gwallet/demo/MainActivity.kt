@@ -124,12 +124,21 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit) {
 
 @Composable
 private fun ActionTile(label: String, modifier: Modifier) {
+    val symbol = when (label) {
+        "Send" -> "➤"
+        "Load" -> "📱"
+        "Transfer" -> "⇄"
+        "Bills" -> "▤"
+        "Savings" -> "▣"
+        "Cards" -> "▭"
+        "Tap" -> "⌁"
+        else -> "•••"
+    }
     Card(modifier, shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
         Column(Modifier.fillMaxWidth().padding(vertical = 16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("✦", color = Blue, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-            Spacer(Modifier.height(5.dp))
+            Text(symbol, color = Blue, fontSize = 27.sp, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(7.dp))
             Text(label, color = Color(0xFF34445D), fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
-            Text("Wallet", color = Color.Gray, fontSize = 9.sp)
         }
     }
 }
