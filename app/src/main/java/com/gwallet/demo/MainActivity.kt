@@ -76,7 +76,7 @@ private fun GWalletApp() {
 @Composable
 private fun DemoBanner() {
     Surface(color = Color(0xFFFFF2D8), shape = RoundedCornerShape(10.dp), modifier = Modifier.fillMaxWidth()) {
-        Text("DEMO APP • Fictional balance and sample records only. Not connected to GCash or any bank.", color = Color(0xFF754B00), fontSize = 11.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(10.dp))
+        Text("PERSONAL WALLET • Fictional balance and sample records only. Not connected to any bank or payment service.", color = Color(0xFF754B00), fontSize = 11.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(10.dp))
     }
 }
 
@@ -88,7 +88,7 @@ private fun HomeScreen(modifier: Modifier, count: Int, onHistory: () -> Unit) {
             Spacer(Modifier.width(10.dp))
             Column {
                 Text("Hello!", color = Blue, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text("Welcome to G-Cash Demo", color = Color.Gray, fontSize = 11.sp)
+                Text("Welcome to Gcàsh", color = Color.Gray, fontSize = 11.sp)
             }
             Spacer(Modifier.weight(1f))
             Text("HELP", color = Blue, fontWeight = FontWeight.Bold)
@@ -190,7 +190,7 @@ private fun ProfileScreen(modifier: Modifier, onDemoLock: () -> Unit) {
     Column(modifier.fillMaxSize().background(Color.White).padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text("Profile", color = Blue, fontSize = 26.sp, fontWeight = FontWeight.Bold)
         DemoBanner()
-        Text("G-Cash Demo User", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+        Text("Gcàsh User", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
         Text("This profile is local to the demo. No phone number, MPIN, or biometric data is collected.", color = Color.Gray)
         OutlinedButton(onClick = onDemoLock, modifier = Modifier.fillMaxWidth()) { Text("Open demo welcome screen") }
     }
@@ -200,7 +200,7 @@ private fun ProfileScreen(modifier: Modifier, onDemoLock: () -> Unit) {
 private fun DemoLogin(onContinue: () -> Unit) {
     Column(Modifier.fillMaxSize().background(Color(0xFF0B2860)).padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Text("G", color = Color.White, fontSize = 64.sp, fontWeight = FontWeight.Black)
-        Text("G-CASH DEMO", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text("Gcàsh", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
         Text("Independent wallet interface prototype", color = Color.White.copy(alpha = .8f))
         Spacer(Modifier.height(32.dp))
         DemoBanner()
